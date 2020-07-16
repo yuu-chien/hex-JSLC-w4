@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+<div id="app">
+
+    <div>
+        <label for="user-email">帳號</label>
+        <input type="text" name="" id="user-email" v-model="user.email">
+    </div>
+
+    <div>
+        <label for="user-password">密碼</label>
+        <input type="password" name="" id="user-password" v-model="user.password">
+    </div>
+
+    <button type="submit" @click="logIn">送出</button>
+
+</div>  
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+
+    const loginPath = 'https://course-ec-api.hexschool.io/api/auth/login';
+
+    new Vue({
+        el: '#app',
+        data() {
+            return{
+                user: {
+                    email: '',
+                    password: '',
+                },
+                taken: '',
+            }
+        },
+        methods: {
+            logIn() {
+                console.log("hi login");
+                axios.post(loginPath, this.user)
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+            },
+        }
+    })
+
+</script>
+</html>
