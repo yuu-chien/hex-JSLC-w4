@@ -3,22 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS/all.min.css">
     <title>Login</title>
 </head>
 <body>
-<div id="app">
+<div id="app" class="d-flex">
 
-    <div>
-        <label for="user-email">帳號</label>
-        <input type="text" name="" id="user-email" v-model="user.email">
-    </div>
+    <section class="login-mainView"></section>
+    <section class="d-flex flex-d-col jc-center ai-center login-txt-block">
+        <h2>Ready to jump in ?</h2>
+        <div>
+            <label for="user-email">帳號</label>
+            <input type="text" name="" id="user-email" v-model="user.email">
+        </div>
+    
+        <div>
+            <label for="user-password">密碼</label>
+            <input type="password" name="" id="user-password" v-model="user.password">
+        </div>
+    
+        <button type="submit" @click="logIn">送出</button>
+    </section>
 
-    <div>
-        <label for="user-password">密碼</label>
-        <input type="password" name="" id="user-password" v-model="user.password">
-    </div>
-
-    <button type="submit" @click="logIn">送出</button>
 
 </div>  
 </body>
