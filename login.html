@@ -10,21 +10,13 @@
 <div id="app" class="d-flex jc-flex-end">
     <section class="d-flex flex-d-col jc-center pr-sm pl-sm login-txt-block">
         <h2 class="fz-m mb-lg color-basic-b">Ready to Jump In ?</h2>
-        <div>
-            <!-- <label for="user-email">帳號</label> -->
-            <input type="text" name="" id="user-email" placeholder="email" v-model="user.email" class="mb-1">
-        </div>
-    
-        <div>
-            <!-- <label for="user-password">密碼</label> -->
-            <input type="password" name="" id="user-password" placeholder="password" v-model="user.password" class="mb-1">
-        </div>
-    
-        <button type="submit" class="login-btn" @click="logIn">Login</button>
+        <form action="">
+            <input type="email" name="email" id="user-email" placeholder="email" v-model="user.email" class="mb-1" required>
+            <input type="password" name="password" id="user-password" placeholder="password" v-model="user.password" class="mb-1" required>
+            <button type="submit" class="login-btn" @click="logIn">Login</button>
+        </form>
     </section>
-
-
-</div>  
+</div> 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

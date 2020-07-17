@@ -14,13 +14,13 @@
     box-shadow: -6px 0px 10px rgba(120, 120, 120, 0.5);
 }
 
-input[type="text"], input[type="password"] {
+input[type="email"], input[type="password"] {
     padding: 8px;
     width: 100%;
     border: 1px solid #ffffff00;
     background: none;
 }
-input:focus, input:active {
+input[type="email"]:focus, input[type="password"]:active {
     outline-width: 0;
     outline: none;
     border-bottom: 1.5px solid #44889b;
