@@ -1,11 +1,11 @@
-@import './base/reset';
-@import './base/base';
+@import '../base/reset';
+@import '../base/base';
 
-@import './utils/variables';
-@import './utils/utilities';
+@import '../utils/variables';
+@import '../utils/utilities';
 
 
-#app {
+.logIn-bg-img {
     min-height: 100vh;
     background: url(https://images.unsplash.com/photo-1526631011044-3fae1501ec7c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1868&q=80) no-repeat;
     background-position: center;
