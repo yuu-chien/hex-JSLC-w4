@@ -122,8 +122,8 @@
             axios.get(url)
               .then(function(res) {
                 this.productsData = res.data.data;
+                console.log("this.productsData",this.productsData);
               })
-            console.log("this.productsData",this.productsData);
           }
         },
         created() {
