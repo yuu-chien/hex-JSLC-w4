@@ -1,6 +1,9 @@
-// *{
-//     outline: 1px solid salmon;
-// }
+@import './base/reset';
+@import './base/base';
+
+@import './utils/variables';
+@import './utils/utilities';
+
 
 #app {
     min-height: 100vh;
