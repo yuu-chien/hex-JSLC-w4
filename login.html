@@ -13,7 +13,7 @@
         <form action="">
             <input type="email" name="email" id="user-email" placeholder="email" v-model="user.email" class="mb-1" required>
             <input type="password" name="password" id="user-password" placeholder="password" v-model="user.password" class="mb-1" required>
-            <button type="submit" class="login-btn" @click="logIn">Login</button>
+            <button type="button" class="login-btn" @click="logIn">Login</button>
         </form>
     </section>
 </div> 
@@ -32,17 +32,20 @@
                     email: '',
                     password: '',
                 },
-                taken: '',
             }
         },
         methods: {
             logIn() {
-                console.log("hi login");
-                this.user.email = '';
-                this.user.password = '';
+                console.log(this.user)
                 axios.post(loginPath, this.user)
-                    .then(function (response) {
-                        console.log(response);
+                    .then(function (res) {
+                        console.log(res);
+                        const token = res.data.token;
+                        const expired = res.data.expired;
+                        // 將 token 和到期期限 存入 cookie
+                        document.cookie = `token=${token};expires=${new Date(expired * 1000)}; path=/`;
+                        // 跳轉到後台頁面
+                        window.location = '/admin-backend.html';
                     })
                     .catch(function (error) {
                         console.log(error);
