@@ -11,7 +11,7 @@ export default {
         <!-- - 商品圖片 - -->
         <div class="form-group">
             <label for="edit-imageUrl">商品圖片網址</label>
-            <input type="text" class="form-control" id="edit-imageUrl" aria-describedby="edit-imageUrlHelp" v-model="modal.imageUrl">
+            <input type="text" class="form-control" id="edit-imageUrl" aria-describedby="edit-imageUrlHelp" v-model="modal.imageUrl[0]">
         </div>
         <!-- - 商品分類 - -->
         <div class="form-group">
@@ -57,7 +57,7 @@ export default {
         <div class="col-6 form-group">
         <p>商品預覽<p>
         <div class="_c_product-preview">
-            <img :src="modal.imageUrl" alt="">
+            <img :src="modal.imageUrl[0]" alt="">
         </div>
         </div>
 
