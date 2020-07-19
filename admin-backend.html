@@ -6,48 +6,48 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="./CSS/all.min.css">
-    <title>Admin</title>
+    <title>Admin｜Playa</title>
 </head>
 <body>
 <div id="app" class="container-fluid">
     <!-- row 開始 -->
     <div class="row">
         <!-- 頁面左方選單欄 開始 -->
-        <nav class="col-2 bgc-primary">
+        <nav class="col-2 pt-xs bgc-primary _c_menu-wrap">
           <!-- logo -->
-          <div class="">
-            <img src="" alt="">
-            <h1>HOT</h1>          
+          <div class="mb-1">
+            <img src="https://image.flaticon.com/icons/svg/3175/3175199.svg" alt="" class="_c_logo">
+            <h1 class="mt-tiny  fz-m fw-bold ta-center">Playa</h1>          
           </div>
           <!-- 功能選單 -->
-          <ul class="">
-            <li class="">
-              <a class="d-flex" href="#">
-                <span class="material-icons">view_list</span>
+          <ul>
+            <li class="pt-tiny pb-tiny">
+              <a class="d-flex ai-center fz-xs fw-bold _c_menu-link" href="#">
+                <span class="material-icons mr-tiny">view_list</span>
                 <p class="">產品列表</p>              
               </a>
             </li>
-            <li class="">
-              <a class="d-flex" href="#">
-                <span class="material-icons">assignment</span>
+            <li class="pt-tiny pb-tiny">
+              <a class="d-flex ai-center fz-xs fw-bold _c_menu-link" href="#">
+                <span class="material-icons mr-tiny">assignment</span>
                 <p class="">訂單系統</p>
               </a>
             </li>
-            <li class="">
-              <a class="d-flex" href="#">
-                <span class="material-icons">supervisor_account</span>
+            <li class="pt-tiny pb-tiny">
+              <a class="d-flex ai-center fz-xs fw-bold _c_menu-link" href="#">
+                <span class="material-icons mr-tiny">supervisor_account</span>
                 <p class="">會員系統</p>
               </a>
             </li>
-            <li class="">
-              <a class="d-flex" href="#">
-                <span class="material-icons">forum</span>
+            <li class="pt-tiny pb-tiny">
+              <a class="d-flex ai-center fz-xs fw-bold _c_menu-link" href="#">
+                <span class="material-icons mr-tiny">forum</span>
                 <p class="">顧客問答</p>
               </a>
             </li>
-            <li class="">
-              <a class="d-flex" href="#">
-                <span class="material-icons">settings</span>
+            <li class="pt-tiny pb-tiny">
+              <a class="d-flex ai-center fz-xs fw-bold _c_menu-link" href="#">
+                <span class="material-icons mr-tiny">settings</span>
                 <p class="">後台設定</p>
               </a>
             </li>
@@ -55,15 +55,15 @@
         </nav>
         <!-- 頁面左方選單欄 結束 -->
         <!-- 頁面右方資料欄 開始 -->
-        <main class="col-10 bgc-basic-w">
+        <main class="col-10 pt-xs pb-xs bgc-basic-w _c_data-wrap">
           <!-- -- 頁面右方資料欄：新增按鈕 -->
-          <section class="">
-            <div class="container">
+          <section>
+            <div class="container d-flex jc-flex-end">
               <button type="button" class="btn bgc-secondary" data-toggle="modal" data-target="#productModal" @click="openModal('add')">新增商品</button>
             </div>
           </section>
           <!-- -- 頁面右方資料欄：資料表格 -->
-          <section>
+          <section class="pt-xs">
             <div class="container">
                 <table class="table table-hover bg-light">
                   <thead class="text-center">
@@ -87,8 +87,8 @@
                       <!-- 使用三原運算子判斷 boolean -->
                       <td>{{ product.enabled ? "上架中": "下架中" }}</td>
                       <td>
-                          <span class="material-icons" data-toggle="modal" data-target="#productModal" @click="openModal('edit', product)">edit</span>
-                          <span class="material-icons" @click="">delete</span>
+                          <span class="material-icons _c_icon" data-toggle="modal" data-target="#productModal" @click="openModal('edit', product)">edit</span>
+                          <span class="material-icons _c_icon" @click="">delete</span>
                       </td>
                     </tr>
                   </tbody>
@@ -96,7 +96,11 @@
             </div>
           </section>
           <!-- -- 頁面右方資料欄：分頁按鈕 -->
-          <pagination :pages="paginationData" @update-page-num="getProducts"></pagination>
+          <section class="pt-xs">
+            <div class="container d-flex jc-center">
+              <pagination :pages="paginationData" @update-page-num="getProducts"></pagination>
+            </div>
+          </section>
         </main>
         <!-- 頁面右方資料欄 結束 -->
     </div> 
@@ -177,6 +181,7 @@
               case 'add':
                 $('#productModal').modal('show');
                 this.isAdd = 'add';
+                this.temporarilyData = {imageUrl: []};
                 break;
               case 'edit':
                 this.isAdd = 'edit';
@@ -201,7 +206,8 @@
                     console.log("saveAdd-res",res);
                     $('#productModal').modal('hide');
                     this.getProducts();
-                })
+                  })
+              this.isAdd = '';
             }else{
               console.log("this.isAdd edit");
               console.log("save-this.temporarilyData",this.temporarilyData)
@@ -212,6 +218,7 @@
                   $('#productModal').modal('hide');
                   this.getProducts();
                 })
+              this.isAdd = '';
             }
 
           },

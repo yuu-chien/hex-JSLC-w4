@@ -3,3 +3,43 @@
 
 @import '../utils/variables';
 @import '../utils/utilities';
+
+._c_logo {
+    width: 120px;
+    height: 120px;
+}
+
+
+._c_menu-wrap {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+._c_data-wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+}
+
+
+._c_icon {
+    cursor: pointer;
+    &:hover {
+        color: $color-primary;
+    }
+}
+
+._c_menu-link {
+    text-decoration: none !important;
+    color: $color-tertiary;
+    &:hover {
+        color: $color-secondary;
+    }
+}
