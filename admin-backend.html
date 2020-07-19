@@ -59,7 +59,7 @@
           <!-- -- 頁面右方資料欄：新增按鈕 -->
           <section class="">
             <div class="container">
-              <button type="button" class="btn bgc-secondary" data-toggle="modal" data-target="#addProductModal">新增商品</button>
+              <button type="button" class="btn bgc-secondary" data-toggle="modal" data-target="#productModal" @click="openModal('add')">新增商品</button>
             </div>
           </section>
           <!-- -- 頁面右方資料欄：資料表格 -->
@@ -87,7 +87,7 @@
                       <!-- 使用三原運算子判斷 boolean -->
                       <td>{{ product.enabled ? "上架中": "下架中" }}</td>
                       <td>
-                          <span class="material-icons" data-toggle="modal" data-target="#editProductModal" @click="">edit</span>
+                          <span class="material-icons" data-toggle="modal" data-target="#productModal" @click="openModal('edit', product)">edit</span>
                           <span class="material-icons" @click="">delete</span>
                       </td>
                     </tr>
@@ -101,6 +101,27 @@
         <!-- 頁面右方資料欄 結束 -->
     </div> 
     <!-- row 結束 -->
+
+    <!-- ------ 商品 Modal ------ -->
+    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="productModalLabel">產品資訊</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span class="material-icons">close</span>
+            </button>
+          </div>
+          <!-- 修改填寫的產品內容 -->
+          <modal :modal="this.temporarilyData"></modal>
+          <!-- 儲存或關閉 -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" @click="">儲存</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -113,7 +134,10 @@
 <script type="module">
 
   import pagination from '/JS/pagination.js';
+  import modal from '/JS/modal.js';
   Vue.component('pagination', pagination);
+  
+  Vue.component('modal', modal);
 
 
     new Vue({
@@ -128,6 +152,7 @@
           }
         },
         token: '',
+        modalType: '',
         methods: {
           getProducts(pageNum) {
             // 如果　pageNum　不存在則賦值 1 
@@ -141,6 +166,23 @@
                 // 目前一頁呈現 25 筆資料，這是由後端計算的
                 this.paginationData = res.data.meta.pagination;
               })
+          },
+          openModal(modalType, product) {
+            switch(modalType) {
+              case 'add':
+                $('#productModal').modal('show');
+                this.temporarilyData = '';
+                break;
+              case 'edit':
+                const url = `${this.api.apiPath}/${this.api.uuid}/admin/ec/product/${product.id}`;
+                axios.get(url)
+                  .then(res => {
+                    console.log("res",res);
+                    this.temporarilyData = res.data.data;
+                    console.log("this.temporarilyData",this.temporarilyData);
+                    $('#productModal').modal('show');
+                  })
+            }
           }
         },
         created() {
