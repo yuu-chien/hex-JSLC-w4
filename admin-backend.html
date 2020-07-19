@@ -144,7 +144,9 @@
         data: {
           productsData: [],
           paginationData: {},
-          temporarilyData: {},
+          temporarilyData: {
+            imageUrl: []
+          },
           api: {
             uuid: '0c404360-cb55-4d2b-8c0a-cd42d85893cb',
             apiPath: 'https://course-ec-api.hexschool.io/api',
@@ -152,7 +154,9 @@
         },
         token: '',
         modalType: '',
+        isAdd: '',
         methods: {
+          // --- 取 得 資 料 ---
           getProducts(pageNum) {
             // 如果　pageNum　不存在則賦值 1 
             if (!pageNum) {pageNum =1}
@@ -166,31 +170,50 @@
                 this.paginationData = res.data.meta.pagination;
               })
           },
+          // --- 開 啟 modal ---
           openModal(modalType, product) {
+            // 透過點擊時傳入的 modalType 這個變數去判斷開啟的 modal 是新增商品還是修改商品
             switch(modalType) {
               case 'add':
                 $('#productModal').modal('show');
-                this.temporarilyData = '';
+                this.isAdd = 'add';
                 break;
               case 'edit':
-                const url = `${this.api.apiPath}/${this.api.uuid}/admin/ec/product/${product.id}`;
-                axios.get(url)
+                this.isAdd = 'edit';
+                const editUrl = `${this.api.apiPath}/${this.api.uuid}/admin/ec/product/${product.id}`;
+                axios.get(editUrl)
                   .then(res => {
                     console.log("res",res);
                     this.temporarilyData = res.data.data;
                     $('#productModal').modal('show');
                   })
+                break;
             }
           },
+          // --- 儲 存 modal 中 的 資 料 ---
           saveEdit() {
-            console.log("save-this.temporarilyData",this.temporarilyData)
-            let url = `${this.api.apiPath}/${this.api.uuid}/admin/ec/product/${this.temporarilyData.id}`;
-            axios.patch(url, this.temporarilyData)
-              .then(res=>{
-                console.log("saveEdit-res",res);
-                $('#productModal').modal('hide');
-                this.getProducts();
-              })
+            // 透過 isAdd 這個變數去判斷開啟的 modal 是新增商品（POST）還是修改商品（GET） 
+            if(this.isAdd == 'add') {
+              console.log("this.isAdd add", this.temporarilyData);
+              let url = `${this.api.apiPath}/${this.api.uuid}/admin/ec/product`;
+              axios.post(url, this.temporarilyData)
+                .then(res=>{
+                    console.log("saveAdd-res",res);
+                    $('#productModal').modal('hide');
+                    this.getProducts();
+                })
+            }else{
+              console.log("this.isAdd edit");
+              console.log("save-this.temporarilyData",this.temporarilyData)
+              let url = `${this.api.apiPath}/${this.api.uuid}/admin/ec/product/${this.temporarilyData.id}`;
+              axios.patch(url, this.temporarilyData)
+                .then(res=>{
+                  console.log("saveEdit-res",res);
+                  $('#productModal').modal('hide');
+                  this.getProducts();
+                })
+            }
+
           },
         },
         created() {
