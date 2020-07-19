@@ -54,12 +54,15 @@
           </ul>
         </nav>
         <!-- 頁面左方選單欄 結束 -->
+        <!-- 頁面右方資料欄 開始 -->
         <main class="col-10 bgc-basic-w">
+          <!-- -- 頁面右方資料欄：新增按鈕 -->
           <section class="">
             <div class="container">
               <button type="button" class="btn bgc-secondary" data-toggle="modal" data-target="#addProductModal">新增商品</button>
             </div>
           </section>
+          <!-- -- 頁面右方資料欄：資料表格 -->
           <section>
             <div class="container">
                 <table class="table table-hover bg-light">
@@ -92,7 +95,10 @@
                 </table>
             </div>
           </section>
+          <!-- -- 頁面右方資料欄：分頁按鈕 -->
+          <pagination :pages="paginationData" @update-page-num="getProducts"></pagination>
         </main>
+        <!-- 頁面右方資料欄 結束 -->
     </div> 
     <!-- row 結束 -->
 </div>
@@ -103,12 +109,18 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-<script>
+<!-- 為了要運行 import，一定要加上 type="module" -->
+<script type="module">
+
+  import pagination from '/JS/pagination.js';
+  Vue.component('pagination', pagination);
+
 
     new Vue({
         el: '#app',
         data: {
           productsData: [],
+          paginationData: {},
           temporarilyData: {},
           api: {
             uuid: '0c404360-cb55-4d2b-8c0a-cd42d85893cb',
@@ -117,12 +129,17 @@
         },
         token: '',
         methods: {
-          getProducts() {
-            const url = `${this.api.apiPath}/${this.api.uuid}/admin/ec/products`;
+          getProducts(pageNum) {
+            // 如果　pageNum　不存在則賦值 1 
+            if (!pageNum) {pageNum =1}
+            const url = `${this.api.apiPath}/${this.api.uuid}/admin/ec/products?page=${pageNum}`;
             axios.get(url)
               .then(res => {
+                // 要用箭頭函式才可以指到 this，不然會指到 window 的 this
                 this.productsData = res.data.data;
-                console.log("this.productsData",this.productsData);
+                console.log("productsData",this.productsData)
+                // 目前一頁呈現 25 筆資料，這是由後端計算的
+                this.paginationData = res.data.meta.pagination;
               })
           }
         },
