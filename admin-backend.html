@@ -117,7 +117,7 @@
           <!-- 儲存或關閉 -->
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" @click="">儲存</button>
+            <button type="button" class="btn btn-primary" @click="saveEdit">儲存</button>
           </div>
         </div>
       </div>
@@ -136,7 +136,6 @@
   import pagination from '/JS/pagination.js';
   import modal from '/JS/modal.js';
   Vue.component('pagination', pagination);
-  
   Vue.component('modal', modal);
 
 
@@ -179,11 +178,20 @@
                   .then(res => {
                     console.log("res",res);
                     this.temporarilyData = res.data.data;
-                    console.log("this.temporarilyData",this.temporarilyData);
                     $('#productModal').modal('show');
                   })
             }
-          }
+          },
+          saveEdit() {
+            console.log("save-this.temporarilyData",this.temporarilyData)
+            let url = `${this.api.apiPath}/${this.api.uuid}/admin/ec/product/${this.temporarilyData.id}`;
+            axios.patch(url, this.temporarilyData)
+              .then(res=>{
+                console.log("saveEdit-res",res);
+                $('#productModal').modal('hide');
+                this.getProducts();
+              })
+          },
         },
         created() {
           // 取得 cookie 中的 token
