@@ -88,7 +88,7 @@
                       <td>{{ product.enabled ? "上架中": "下架中" }}</td>
                       <td>
                           <span class="material-icons _c_icon" data-toggle="modal" data-target="#productModal" @click="openModal('edit', product)">edit</span>
-                          <span class="material-icons _c_icon" @click="">delete</span>
+                          <span class="material-icons _c_icon" data-toggle="modal" data-target="#delModal" @click="delProduct(product)">delete</span>
                       </td>
                     </tr>
                   </tbody>
@@ -106,7 +106,7 @@
     </div> 
     <!-- row 結束 -->
 
-    <!-- ------ 商品 Modal ------ -->
+    <!-- ------ 新增／編輯商品 Modal ------ -->
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -122,6 +122,26 @@
           <div class="modal-footer">
             <button type="button" class="btn bgc-tertiary" data-dismiss="modal">取消</button>
             <button type="button" class="btn color-basic-w bgc-primary" @click="saveEdit">儲存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ------ 刪除商品 Modal ------ -->
+    <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="delModalLabel">系統訊息</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span class="material-icons">close</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            刪除後將無法復原，確定要刪除嗎？
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn bgc-tertiary" data-dismiss="modal">取消</button>
+            <button type="button" class="btn color-basic-w bgc-primary" @click="saveDel">確定</button>
           </div>
         </div>
       </div>
@@ -188,7 +208,6 @@
                 const editUrl = `${this.api.apiPath}/${this.api.uuid}/admin/ec/product/${product.id}`;
                 axios.get(editUrl)
                   .then(res => {
-                    console.log("res",res);
                     this.temporarilyData = res.data.data;
                     $('#productModal').modal('show');
                   })
@@ -199,28 +218,35 @@
           saveEdit() {
             // 透過 isAdd 這個變數去判斷開啟的 modal 是新增商品（POST）還是修改商品（GET） 
             if(this.isAdd == 'add') {
-              console.log("this.isAdd add", this.temporarilyData);
               let url = `${this.api.apiPath}/${this.api.uuid}/admin/ec/product`;
               axios.post(url, this.temporarilyData)
                 .then(res=>{
-                    console.log("saveAdd-res",res);
                     $('#productModal').modal('hide');
                     this.getProducts();
-                  })
+                })
               this.isAdd = '';
             }else{
-              console.log("this.isAdd edit");
-              console.log("save-this.temporarilyData",this.temporarilyData)
               let url = `${this.api.apiPath}/${this.api.uuid}/admin/ec/product/${this.temporarilyData.id}`;
               axios.patch(url, this.temporarilyData)
                 .then(res=>{
-                  console.log("saveEdit-res",res);
                   $('#productModal').modal('hide');
                   this.getProducts();
                 })
               this.isAdd = '';
             }
-
+          },
+          // 在點擊刪除的垃圾桶 icon 時先將資料存進 this.temporarilyData
+          delProduct(product) {
+            this.temporarilyData = product;
+          },
+          saveDel() {
+            let url = `${this.api.apiPath}/${this.api.uuid}/admin/ec/product/${this.temporarilyData.id}`;
+            axios.delete(url, this.temporarilyData)
+              .then(res=>{
+                $('#delModal').modal('hide');
+                this.getProducts();
+                this.temporarilyData = {imageUrl: []};
+              })
           },
         },
         created() {
