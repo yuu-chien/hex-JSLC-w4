@@ -108,7 +108,7 @@
 
     <!-- ------ 商品 Modal ------ -->
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="productModalLabel">產品資訊</h5>
@@ -120,8 +120,8 @@
           <modal :modal="temporarilyData"></modal>
           <!-- 儲存或關閉 -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" @click="saveEdit">儲存</button>
+            <button type="button" class="btn bgc-tertiary" data-dismiss="modal">取消</button>
+            <button type="button" class="btn color-basic-w bgc-primary" @click="saveEdit">儲存</button>
           </div>
         </div>
       </div>
