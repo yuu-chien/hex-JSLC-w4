@@ -16,6 +16,7 @@
 <br>
 
 ## Content 
+* 使用六角學院提供之個人 API 進行串接
 * 使用 Vue.js 搭配 Bootstrap
 * 製作 modal.js 和 pagination.js 元件
 
